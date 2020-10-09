@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -13,6 +12,11 @@ import (
 var c cache.CacheItf
 
 func github(w http.ResponseWriter, r *http.Request) {
+	value, err := c.Get("status")
+	if err == nil {
+		json.NewEncoder(w).Encode(value)
+	}
+
 	resp, err := http.Get("https://api.github.com/status")
 	if err != nil {
 		json.NewEncoder(w).Encode(err)
@@ -33,11 +37,6 @@ func github(w http.ResponseWriter, r *http.Request) {
 	}
 
 	json.NewEncoder(w).Encode(string(data))
-
-	foo, err := c.Get("status")
-	if err == nil {
-		fmt.Println(foo)
-	}
 }
 
 func handleRequests() {
