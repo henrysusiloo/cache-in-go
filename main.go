@@ -17,7 +17,6 @@ func github(w http.ResponseWriter, r *http.Request) {
 	cacheVal, err := getCache([]byte("status"))
 	if err != nil {
 		json.NewEncoder(w).Encode(err)
-		return
 	}
 
 	if len(cacheVal) != 0 {
