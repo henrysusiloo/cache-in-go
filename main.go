@@ -15,6 +15,7 @@ func github(w http.ResponseWriter, r *http.Request) {
 	value, err := c.Get("status")
 	if err == nil {
 		json.NewEncoder(w).Encode(value)
+		return
 	}
 
 	resp, err := http.Get("https://api.github.com/status")
